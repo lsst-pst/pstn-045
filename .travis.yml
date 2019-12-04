@@ -6,12 +6,31 @@ language: python
 python:
   - '3.7'
 before_install:
-  - "pip install 'lander>=0.1.0,<0.2'"
-  - "pip install pyyaml"  # for db2authors.py
+  - pip install 'lander>=0.1.0,<0.2'
+  - pip install pyyaml    # for db2authors.py
 script:
   # Pre-build authors.tex using the Travis CI Python
-  - "make authors.tex"
+  - make authors.tex
   # Compile PDF using containerized lsst-texmf
-  - "docker run --rm -v `pwd`:/workspace -w /workspace lsstsqre/lsst-texmf:latest sh -c 'make'"
+  - docker run --rm -v `pwd`:/workspace -w /workspace lsstsqre/lsst-texmf:latest sh
+    -c 'make'
   # Deploy website. See https://github.com/lsst-sqre/lander for CLI options
-  - "lander --upload --pdf PSTN-045.pdf --lsstdoc PSTN-045.tex --env=travis --ltd-product pstn-045"
+  - lander --upload --pdf PSTN-045.pdf --lsstdoc PSTN-045.tex --env=travis --ltd-product
+    pstn-045
+env:
+  global:
+    -
+      # LTD_AWS_ID
+      secure: ZBGhz+bt+drMf78tPw0zQWt4CzfbhWXYkCN5bv14O+1e9DMuhkrAnZ3inkbjb8AkFElWh7WVTBwftoQTKe1iWYubZXFKTbuKLYWiwDGaf4u0jLR8MZHKVh2AVq6VU6I+kSRrryhncg78CaN8zoFbmGkIbcYXH007TgdEFtUW72Shm5arIlWYGOmLFkHjRjktIUoqFh+aqkh9obQi7oNd9cjEdQmuFoI/v7X+bgcd3AclpO3jH7htOY6G4uotG6X/F4lw6LssQ/wGruDVi3WOM+KTnAEXLZOjr/tE35Fm7GeFoDtYxzpKk86/fJ0g6J2BBMnSrYlpSakRH1YRqgWG6OvtMH/iEe5SewTXYj8cEsFDw0/Us9hmndoy4pNrlBCf1NU3+xGkGJGuwIkbifjSNPvhjPfZdA72KUzUXhXlRbTH690MpsAxxwbzUJCLjmE5uJxRLh9WJPdCHIKg3JIoSjRV6sOGJcRi/VaBP7H9yqwRty+dZDYGih1wZhmW8HQZid7MvPCl2gM9MHd1JL+R5ymUEnFvA5RfceNTc0Z4fgfMzxWMz3jBTclHcAC9j9wnR/JqpqMnVx+XVZTy6POOKCNiiwDlYAqyiEjK2QeAymfyERwBIHo6xj+bFN39XI4OnMBh6Y2NbeWR/16SrL1ogddspcP0v/PORuo6rlwCdpM=
+    -
+      # LTD_AWS_SECRET
+      secure: xDsn9EQH2cYZk6r015MWmZavpMnpkPysrynp7VlwqdlLjwC8fgqhCOvCc5TtnIrfBNIZmFaX2lv2IKTbVdZUEcK9tYmt7nfwTzpCWKuNZcNAwlncfk9u/QtADSTHRnTunL/VVfIJAiEs/OLHgG191zfOepYLgDZ1LwvDFfMstmPd575/Yk3hReW5/fawR4uz+bi22oU6SGJr6zCc1fip+bUI6qSf8n2yjYEA/8JHqVnUDD9xm0hUXxFbTeRMtBslR62m9+qAQXnQliD8Xm7vZOK7EAVm5F/y/A33AT7/HQiT36hfBs5AuqHhu4bHaR6tz6lsa8cs8vD21X3GGwGF5DBkg7dvFBU2W2+2/lkudMAkuEFhJkCdevWeLKHdmvYBT6Bs4asn/+S5liy5p06QLuqTVlyhg+FqPlwjcOZf/HKr/cIZgqpn5swbA24LJW920UZZz7v0ES1GbGDmskBMfL88hTCK7JVpO6VtAbDJvBkiRf+YSa1IrsDgP4wiX+Oy2ehJAjs2FgGvr5fiuyoZtAwIIDa5zsuQcRTkVrA8hE4aF0XEfXWFXFWwfHohgK+otFy0uqRiaaMnbpNR3GP3zwVqjjLlj9rvHaw9KiidmGLEfYbhtFOrCtUcHEAN1Cv8DOdgO40ggea7FQsRx88sa9MVjoSERIjglm0ydsPbeOo=
+    -
+      # LTD_KEEPER_USERNAME
+      secure: YJfHrdXz/a5wTPj5/iqkH/ihGOdS4CsdNEBzg7H+5YHFIeqt6O6KECFNa7jOg+mvB5RJLc80+rqFyIHTyecXEvqj67Gq9nlkc4DXjIo6hckiTJCNsXexQw/MylUa4jfC6Ko+q6phGIY2PVJ6Ez09vGxfKJT1PowM5Gbuk5FoZbXix7L4MYxZ/z5PKx5gjGwWCgDez1BTeTykrH7ZdBMU+zIgYK5Df288pAWh9yiNYhIjBAjcqiZ+5TVO4c7c5Q4QDIA9r6uX3k7RrMTZYfEB0SxICllgrB16iLimKFUKVeKxo+ltHUwfpnlQUhmcG91wv85naGoaldG1ol+amLj4343rufbWV9Ly7CXdY+d3JKDTY1+BLZrnG87vngbDovdqAP76EmQ1kSFc6Uv0HNE2y2GPbupYyWUH2LwA749TUA3H/NSECTkOtES5WbXSf6Y+Xsbp38iDtwra6zKBbudQrqHW/Kid3dnCNt9UPUwaKKJGEx3yXmSKch2EDpLJ1uGdtPW2RLEU+P+aN+ulG31nyfMucWmv7tWhWD//ijFmToIWh3mb3I9wKmsCO9WJhXaDo9sRkEu1zkb3dg4zVHMD2OtRlaHA8hUztFjWjxN7xkATJdKZQwuRQOGEw7TJukfYgX9necD34mcCjwWHz6g3T/l3rpDFGMpd+nDKWgj0hQk=
+    -
+      # LTD_KEEPER_PASSWORD
+      secure: vtLNy7apK/lfk8fi5DrvHN858qSB3nSxWNRGrstsqtQcqcoBJGA3x5GlNVPprxZg3ygaRHi3mM/qaMqYKoM8pFjq+0EQ3KRR5dbGjo+0YW4dqsZgOp65o3xlER38JwlL5AqrMxfPeMoB0pTRc8QbwWYtCyBw95wdP3W/oACOmX54E+2dbb7dWm25b/S4NSRg4cOQDNX6PJYJFDLET12LFN/ZzHUpi5/QXAFI8nCW9BW2SuKsWVpVfVhVhSTubfIh/r2rFvVn64YsnpWGYQFXC+2NU7j1XleTmk4a4jlS6+Bq6qAoXX8g42uI057gupNmK+fCBPWTMMMupxDwl8VzIdX+scNf28FIWGtQ02R0qTOlXtBCS0XBQwnCARVjUP2mG9QjqTXXmLlxlbAvEHAGpA1wlhE+fBMtfjLA9xq4szJ9hew5TAC8hdXagCRBceS9CLhG254lQAy6hm+q0aj+ynLgEWlLCZGYGxL7wHZvC79oqYWNapsOBLhuwSvd6iSkVUhLlADGEeKKVTjTF7sQaScGNsKePeQ4Ld+rUriJyCZKNSc+G8KSta/+Yb/Z7rb+TmfAskIUmjm8g1NW3jRIXZTTZIw8gYjVG6HHTpBOlJmwYdZ9GMUTY3elQjc/q7EWS6xA38ZmjDfadsSlLOybc5wRhASwT0AmCBzFv8ni4w4=
+    -
+      # LTD_KEEPER_URL
+      secure: qoWNMgNg8poH/H9sDBGv2l5jLNvLC5hec6D5aMnAxqD3JMP1d6Cq1evuN0EnsdyECM9RMnFUNuct9HL0kEwWEq5X5NRgh5h3p46ptQQ4WNjT7PAl9ZMNT0V+3d+EbrECrGfAxYFODEPUaiLHy4a1iXXZtljwGES7n/GFZ0HESdcdOyVyegRjjIeP0noKmMqDyuvjQYX7qzhRKqunAj/EvdTBE6RMj7uS4JnAqUwD3ttHnlguTkbHZvndsJsfHOVvJoa/ESAR/tXb94Bwf2dtpW0wRaJXLBF0ohTIeEHXwB5aa9p3kdepPIintp9sTwa9pVPYUAk5B37lgKOvTJgRYZxTGfFGPD4v5K3UFq02ASBUAvBqnvDIlTyL8t/0AopQXLhOr0cdVmyy5ycI1qVFQM7ohy5jwPj+Y2n4ulf0R1nhssmgoNGRR9HB3fhb5QX/P3thoOZoeBV1SfD415oYpUPRcEZl+0BffOG7aPHJFKugYGGdEOuhWcHXSHNQEEExxMoSj/y3kcS0g6F6P0qCQcriflNxuvl7h66XBZHfhlgbElfxq0pe5/ipLEQqsbJ8xyI4Wpsi314ixpiqNrEn9WxdCPdYV7UZ0lFsAJ08ZW1/Zgbyz5NLz+IuDsAiVBu5rJrUqRW9v/Po+Y8f3vcDIz+rU1SeQK0usWGDCA/3d8Y=
