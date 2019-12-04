@@ -1,0 +1,39 @@
+\documentclass[modern]{aastex62}
+
+% lsstdoc documentation: https://lsst-texmf.lsst.io/lsstdoc.html
+\input{meta}
+
+% Package imports go here.
+
+% Local commands go here.
+
+
+
+\newcommand{\docRef}{PSTN-045}
+\newcommand{\docUpstreamLocation}{\url{https://github.com/lsst-pst/pstn-045}}
+
+
+\begin{document}
+\input{authors}
+\date{\today}
+\title{LSST Petascale Distributed Database}
+\hypersetup{pdftitle={\@title}, pdfauthor={\@author}, pdfkeywords={\@keywords}}
+
+\input{abstract}
+
+\input{body}
+
+\appendix
+% Remove this when you strart your paper
+\input{appendix}
+% Include all the relevant bib files.
+% https://lsst-texmf.lsst.io/lsstdoc.html#bibliographies
+\section{References} \label{sec:bib}
+\bibliographystyle{yahapj}
+\bibliography{local,lsst,lsst-dm,refs_ads,refs,books}
+
+% Make sure lsst-texmf/bin/generateAcronyms.py is in your path
+\section{Acronyms} \label{sec:acronyms}
+\input{acronyms.tex}
+
+\end{document}
