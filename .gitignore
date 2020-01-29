@@ -1,0 +1,12 @@
+*.swp
+*.aux
+*.log
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+PSTN-045.pdf
+acronyms.tex
+authors.tex
+meta.tex
+
